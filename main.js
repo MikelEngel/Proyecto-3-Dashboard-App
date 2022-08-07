@@ -1,11 +1,18 @@
+/* const employeeLabel = [], employeeSalaryData = [], employeeAge = []
+
+async function dummyChart () {
+  await getDummyData ()
+}
+
 const ctx = document.getElementById('myChart').getContext('2d');
+
 const myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
+
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: employeeLabel,
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Employee Salary',
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -34,15 +41,76 @@ const myChart = new Chart(ctx, {
     }
 });
 
+dummyChart()
+
 //Fetch
 
-async function chartData(){
-  const url = 'https://dummy.restapiexample.com/api/v1/employees'
-  const response = await fetch (url)
-  const barCharData = await response.json()
+async function getDummyData(){
+  const apiUrl = 'https://dummy.restapiexample.com/api/v1/employees'
 
-  console.log(barCharData)
+const response = await fetch (apiUrl)
+const barCharData = await response.json()
+
+const salary = barCharData.data.map ((x) => x.employee_salary)
+console.log(salary)
+const age = barCharData.data.map ((x) => x.employee_age)
+const name = barCharData.data.map ((x) => x.employee_name)
+
+employeeSalaryData = salary
+employeeAgeData = age
+employeeLabel = name
+
+
+} */
+
+
+let employeeLabel = [], employeeSalaryData = [], employeeAgeData = []
+
+async function dummyChart() {
+  await getDummyData()
+
+const ctx = document.getElementById('myChart').getContext('2d');
+
+const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: employeeLabel,
+        datasets: [{
+            label: 'Employee Salary',
+            backgroundColor: 'blue',
+            borderColor: 'rgb(255, 99, 132)',
+            data: employeeSalaryData
+        },
+        /* {
+          label: 'Employee Age',
+          backgroundColor: 'pink',
+          borderColor: 'rgb(255, 99, 132)',
+          data: employeeAgeData
+      } */
+      ]
+    },
+    options: {
+      tooltips: {
+        mode: 'index'
+      }
+    }
+})}
+
+dummyChart()
+
+
+async function getDummyData() {
+  const apiUrl = "http://dummy.restapiexample.com/api/v1/employees"
+
+  const response = await fetch(apiUrl)
+  const barChatData = await response.json()
+  
+  const salary = barChatData.data.map((x) => x.employee_salary)
+  console.log(salary)
+  const age = barChatData.data.map((x) => x.employee_age)
+  const name = barChatData.data.map((x) => x.employee_name)
+
+ employeeSalaryData = salary
+ employeeAgeData = age
+ employeeLabel = name
 }
-
-chartData()
-
